@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:tx="http://www.springframework.org/schema/tx" xmlns:int="http://www.springframework.org/schema/integration"
+	xmlns:int-ws="http://www.springframework.org/schema/integration/ws"
+	xmlns:int-stream="http://www.springframework.org/schema/integration/stream"
+	xmlns:int-jdbc="http://www.springframework.org/schema/integration/jdbc"
+	xmlns:int-jpa="http://www.springframework.org/schema/integration/jpa"
+	xsi:schemaLocation="
+	http://www.springframework.org/schema/context
+    http://www.springframework.org/schema/context/spring-context.xsd
+	http://www.springframework.org/schema/beans
+	http://www.springframework.org/schema/beans/spring-beans.xsd
+	http://www.springframework.org/schema/tx 
+	http://www.springframework.org/schema/tx/spring-tx.xsd
+  	http://www.springframework.org/schema/integration
+  	http://www.springframework.org/schema/integration/spring-integration-4.0.xsd
+  	http://www.springframework.org/schema/integration/stream
+  	http://www.springframework.org/schema/integration/stream/spring-integration-stream-4.0.xsd
+ 	http://www.springframework.org/schema/integration/ws
+ 	http://www.springframework.org/schema/integration/ws/spring-integration-ws.xsd
+ 	http://www.springframework.org/schema/integration/jdbc
+   	http://www.springframework.org/schema/integration/jdbc/spring-integration-jdbc-4.0.xsd
+   	http://www.springframework.org/schema/integration/jpa
+   	http://www.springframework.org/schema/integration/jpa/spring-integration-jpa-4.0.xsd">
+
+	<!-- channels -->
+
+	<int:channel id="JdbcRequestChannel" />
+
+<!-- 	<int:control-bus input-channel="controlChannel"/> -->
+
+	<int-jdbc:inbound-channel-adapter
+		channel="JdbcResponsesChannel" data-source="dataSource"  query="Select * from CAR">
+		<int:poller default="false" fixed-rate="50000" />
+	</int-jdbc:inbound-channel-adapter>
+
+
+	<int:channel id="JdbcResponseChannel">
+		<int:queue />
+	</int:channel>
+	
+<!-- 	<bean id="searchCarQuery" class="test.springInt.SearchCarQuery"> -->
+<!-- 		<property name="searchCarquery" value="default" /> -->
+<!-- 	</bean> -->
+
+</beans>

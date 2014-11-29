@@ -1,0 +1,20 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<schema xmlns="http://www.w3.org/2001/XMLSchema"
+	elementFormDefault="unqualified" attributeFormDefault="unqualified" 
+	targetNamespace="http://localhost:8081/schema" xmlns:tns="http://localhost:8081/schema">
+
+	<element name="addBookingRequest">
+		<complexType>
+			<sequence>
+				<element name="bookingNumber" type="string" />
+				<element name="customerId" type="int" />
+				<element name="agencyId" type="int" />
+				<element name="carId" type="string" />
+				<element name="bookingDate" type="string" />
+				<element name="returnDate" type="string" />
+			</sequence>
+		</complexType>
+	</element>
+
+	<element name="addBookingResponse" type="boolean" />
+</schema>  	

@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:int="http://www.springframework.org/schema/integration"
+	xmlns:int-ws="http://www.springframework.org/schema/integration/ws"
+	xsi:schemaLocation="http://www.springframework.org/schema/integration/ws http://www.springframework.org/schema/integration/ws/spring-integration-ws.xsd
+		http://www.springframework.org/schema/integration http://www.springframework.org/schema/integration/spring-integration.xsd
+		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+
+	<!-- Search Car Service Inbound Gateway Config -->
+	<int:channel id="SearchCarServiceInput" />
+
+	<int-ws:inbound-gateway id="searchCar-inbound-gateway"
+		request-channel="SearchCarServiceInput" />
+
+	<int:service-activator input-channel="SearchCarServiceInput">
+		<bean class="test.springInt.SearchCarService" />
+	</int:service-activator>
+
+</beans>

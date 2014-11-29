@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:tx="http://www.springframework.org/schema/tx" xmlns:int="http://www.springframework.org/schema/integration"
+	xmlns:int-ws="http://www.springframework.org/schema/integration/ws"
+	xmlns:int-stream="http://www.springframework.org/schema/integration/stream"
+	xmlns:int-jdbc="http://www.springframework.org/schema/integration/jdbc"
+	xmlns:int-jpa="http://www.springframework.org/schema/integration/jpa"
+	xsi:schemaLocation="
+	http://www.springframework.org/schema/context
+    http://www.springframework.org/schema/context/spring-context.xsd
+	http://www.springframework.org/schema/beans
+	http://www.springframework.org/schema/beans/spring-beans.xsd
+	http://www.springframework.org/schema/tx 
+	http://www.springframework.org/schema/tx/spring-tx.xsd
+  	http://www.springframework.org/schema/integration
+  	http://www.springframework.org/schema/integration/spring-integration.xsd
+  	http://www.springframework.org/schema/integration/stream
+  	http://www.springframework.org/schema/integration/stream/spring-integration-stream.xsd
+ 	http://www.springframework.org/schema/integration/ws
+ 	http://www.springframework.org/schema/integration/ws/spring-integration-ws.xsd
+ 	http://www.springframework.org/schema/integration/jdbc
+   	http://www.springframework.org/schema/integration/jdbc/spring-integration-jdbc.xsd
+   	http://www.springframework.org/schema/integration/jpa
+   	http://www.springframework.org/schema/integration/jpa/spring-integration-jpa.xsd">
+
+	<!--Loading properties file -->
+	<context:property-placeholder
+		location="classpath:/properties/propConf.properties" />
+
+	<!--Data source configuration -->
+	<bean id="dataSource"
+		class="org.springframework.jdbc.datasource.DriverManagerDataSource" >
+		<property name="driverClassName" value="${ds.driverClassName}" />
+		<property name="url" value="${ds.url}" />
+		<property name="username" value="${ds.username}" />
+		<property name="password" value="${ds.password}" />
+		
+	</bean>
+
+	<!--JPA transaction Manager -->
+	<bean id="transactionManager" class="org.springframework.orm.jpa.JpaTransactionManager">
+		<constructor-arg ref="entityManagerFactory" />
+	</bean>
+
+	<bean id="entityManagerFactory"
+		class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
+		<property name="dataSource" ref="dataSource" />
+		<property name="jpaVendorAdapter" ref="vendorAdaptor" />
+		<property name="packagesToScan" value="${packageToScan}" />
+	</bean>
+
+	<bean id="abstractVendorAdaptor" abstract="true">
+		<property name="generateDdl" value="${ava.generateDdl}" />
+		<property name="database" value="${ava.database}" />
+		<property name="showSql" value="${ava.showSql}" />
+	</bean>
+
+	<bean id="entityManager"
+		class="org.springframework.orm.jpa.support.SharedEntityManagerBean">
+		<property name="entityManagerFactory" ref="entityManagerFactory" />
+	</bean>
+
+	<bean id="vendorAdaptor"
+		class="org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter"
+		parent="abstractVendorAdaptor">
+	</bean>
+	
+	<import resource="classpath:/META-INF/springIntegration/springConfBooking.xml" />
+	<import resource="classpath:/META-INF/springIntegration/springConfAgency.xml" />
+	<import resource="classpath:/META-INF/springIntegration/springConfCar.xml" />
+	<import resource="classpath:/META-INF/springIntegration/springConfCarType.xml" />
+	<import resource="classpath:/META-INF/springIntegration/springConfCustomer.xml" />
+	<import resource="classpath:/META-INF/springIntegration/springConfMarshallUnmarshall.xml" />
+
+</beans>

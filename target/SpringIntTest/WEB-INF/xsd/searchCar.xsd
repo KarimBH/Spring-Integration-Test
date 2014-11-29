@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
+	elementFormDefault="qualified" attributeFormDefault="unqualified"
+	targetNamespace="http://localhost:8080/schema" xmlns:tns="http://localhost:8080/schema">
+	
+		<xs:element name="carSpecRequest" type="tns:carSpecType"/>	
+		<xs:complexType name="carSpecType">
+			<xs:sequence>
+				<xs:element name="CarBrand" type="xs:string" />
+				<xs:element name="CarName" type="xs:string" />
+			</xs:sequence>
+		</xs:complexType>
+		<xs:element name="searchcarResponse" type="xs:string" />
+	
+</xs:schema>  

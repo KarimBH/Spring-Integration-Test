@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:tx="http://www.springframework.org/schema/tx" xmlns:int="http://www.springframework.org/schema/integration"
+	xmlns:int-ws="http://www.springframework.org/schema/integration/ws"
+	xmlns:int-stream="http://www.springframework.org/schema/integration/stream"
+	xmlns:int-jdbc="http://www.springframework.org/schema/integration/jdbc"
+	xmlns:int-jpa="http://www.springframework.org/schema/integration/jpa"
+	xmlns:int-xml="http://www.springframework.org/schema/integration/xml"
+	xsi:schemaLocation="
+	http://www.springframework.org/schema/context
+    http://www.springframework.org/schema/context/spring-context.xsd
+	http://www.springframework.org/schema/beans
+	http://www.springframework.org/schema/beans/spring-beans.xsd
+	http://www.springframework.org/schema/tx 
+	http://www.springframework.org/schema/tx/spring-tx.xsd
+  	http://www.springframework.org/schema/integration
+  	http://www.springframework.org/schema/integration/spring-integration.xsd
+  	http://www.springframework.org/schema/integration/stream
+  	http://www.springframework.org/schema/integration/stream/spring-integration-stream.xsd
+ 	http://www.springframework.org/schema/integration/ws
+ 	http://www.springframework.org/schema/integration/ws/spring-integration-ws.xsd
+ 	http://www.springframework.org/schema/integration/jdbc
+   	http://www.springframework.org/schema/integration/jdbc/spring-integration-jdbc.xsd
+   	http://www.springframework.org/schema/integration/jpa
+   	http://www.springframework.org/schema/integration/jpa/spring-integration-jpa.xsd
+   	http://www.springframework.org/schema/integration/xml 
+  	http://www.springframework.org/schema/integration/xml/spring-integration-xml.xsd">
+
+	<!-- channels -->
+
+	<int:channel id="MarshallRequest-channel" />
+	<int:channel id="UnmarshallRequest-channel" />
+
+
+	<int:channel id="MarshallResponse-channel">
+		<int:queue capacity="100" />
+	</int:channel>
+
+	<int:channel id="UnmarshallResponse-channel">
+		<int:queue capacity="100" />
+	</int:channel>
+
+
+	<int-xml:unmarshalling-transformer
+		input-channel="UnmarshallRequest-channel" output-channel="UnmarshallResponse-channel"
+		unmarshaller="marshaller">
+	</int-xml:unmarshalling-transformer>
+
+
+	<int-xml:marshalling-transformer
+		input-channel="MarshallRequest-channel" output-channel="MarshallResponse-channel"
+		marshaller="marshaller" result-type="StringResult" >
+	</int-xml:marshalling-transformer>
+
+	<bean id="marshaller" class="org.springframework.oxm.castor.CastorMarshaller" />
+
+</beans>

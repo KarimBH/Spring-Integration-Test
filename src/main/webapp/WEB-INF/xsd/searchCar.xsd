@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<schema xmlns="http://www.w3.org/2001/XMLSchema"
+	elementFormDefault="qualified" attributeFormDefault="unqualified"
+	targetNamespace="http://localhost:8080/schema" xmlns:tns="http://localhost:8080/schema">
+
+	<element name="searchCarRequest">
+		<complexType>
+			<sequence>
+				<element name="CarBrand" type="string" />
+				<element name="CarName" type="string" />
+			</sequence>
+		</complexType>
+	</element>
+
+	<element name="searchCarResponse" type="string" />
+</schema>  

@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>  
+<schema xmlns="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified" attributeFormDefault="qualified"  
+        targetNamespace="http://localhost:8080/schema"  
+        xmlns:tns="http://localhost:8080/schema">  
+  
+    <element name="echoRequest">  
+        <simpleType>  
+            <restriction base="string">  
+                <pattern value="([A-Z]|[a-z])+"/>  
+            </restriction>  
+        </simpleType>  
+    </element>  
+  
+    <element name="echoResponse" type="string"/>  
+</schema>  
